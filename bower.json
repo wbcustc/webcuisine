@@ -1,0 +1,9 @@
+{
+  "name": "Gallery",
+  "dependencies": {
+    "bootstrap": "3.x.x",
+    "jquery": "2.x.x",
+    "angular": "1.4.x",
+    "angular-animate": "latest"
+  }
+}

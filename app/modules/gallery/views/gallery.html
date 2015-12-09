@@ -1,0 +1,127 @@
+<div class="galleryModule container">
+
+    <!-- ShowImage in Modal -->
+    <div class="modal modal-fullscreen fade" id="openImage" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+
+                    <h4 ng-if="slideshow">
+                        <strong class="modal-title" ng-bind="image.name"></strong>
+                        <!--<span class="date" ng-bind="imageSlideshow.desc"></span>-->
+                    </h4>
+
+                    <h4 ng-if="!slideshow">
+                        <strong class="modal-title" ng-bind="image.name"></strong>
+                        <span class="date" ng-bind="image.desc"></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Slideshow -->
+                    <div ng-if="slideshow">
+                        <img gallery-image fade-in class="animate-show" ng-src="{{ imageSlideshow.image_url }}" alt="">
+                    </div>
+
+                    <!-- No Slideshow -->
+                    <div ng-if="!slideshow">
+                        <img gallery-image ng-src="{{ image.image_url }}" alt="" >
+                        <p class="date" ng-bind="image.desc"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="row page-header">
+        <div class="col-lg-8">
+            <h1>Cuisine</h1>
+        </div>
+        <!--<div class="col-lg-3">-->
+            <!--<label>-->
+                <!--Search:-->
+                <!--<input onkeydown="callRest()" ng-model="searchImage" type="text">-->
+            <!--</label>-->
+        <!--</div>-->
+        <div class="col-lg-3">
+            <label>
+                Search:
+                <input ng-model="filterImage" type="text">
+            </label>
+        </div>
+    </div>
+
+    <!-- Images -->
+    <div class="row">
+        <div ng-repeat="image in filteredImages = (images | filter:filterImage | orderBy:orderBy) track by $index"
+             ng-if="isAllowToShowImage($index, image);"
+             class="col-lg-3 col-md-4 col-xs-6 thumb"
+        >
+            <span class="thumbnail">
+                <a class="image-wrapper" ng-click="openImage(image)">
+                    <img gallery-image ng-src="{{ image.image_url }}" class="img-responsive" title="{{image.name}}"
+                         alt="{{image.name}}" width="300%" height="300%">
+                </a>
+                <p class="title" ng-click="openImage(image)" ng-bind="image.name" title="{{image.name}}"></p>
+                <p class="date" ng-bind="image.desc"></p>
+                <!--<button class="btn btn-sm btn-danger" ng-click="removeImage(image)">-->
+                    <!--<span class="glyphicon glyphicon-remove" title="Remove"> <strong>Remove</strong></span>-->
+                <!--</button>-->
+            </span>
+        </div>
+    </div>
+
+    <!-- Images: Not found -->
+    <div class="row" ng-if="filteredImages.length==0">
+        <div class="alert alert-warning">
+            Can&rsquo;t find items by current search query.
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <hr>
+    <div class="row page-footer page-footer-1">
+        <div class="col-lg-12">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default">Sorting by: <strong ng-bind="orderBy"></strong>
+                </button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-class="{ 'active': orderBy === 'name' }"><a ng-click="orderBy='name';">Name</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default">Results on page: <strong ng-bind="resultsOnPage"></strong>
+                </button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" ng-init="resultsVarients = [10,15,20]">
+                        <li ng-repeat="resultsCount in resultsVarients track by $index"
+                            ng-class="{ 'active': resultsOnPage === resultsCount }">
+                            <a ng-click="setResultsOnPage(resultsCount)">
+                                <span ng-bind="resultsCount"></span> results per page
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row page-footer page-footer-2" ng-if="pagesArr.length>0">
+        <div ng-repeat="pageItem in pagesArr track by $index" class="btn-group" role="group">
+            <button ng-click="setPage(pageItem)" type="button" class="btn btn-default"
+                    ng-class="{ 'active': $index == page-1 }"><strong ng-bind="pageItem"></strong></button>
+        </div>
+    </div>
+</div>

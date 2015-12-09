@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cuisine</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="app/modules/gallery/styles/gallery.css">
+</head>
+<body>
+    <div ng-app="app">
+
+        <!-- init gallery app -->
+        <gallery path      = "'./app/modules/gallery/'"
+                 source    = "'./static/json/image.json'"
+                 slideshow = "2"> </gallery>
+
+    </div>
+
+    <!-- js:vendors -->
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/angular/angular.min.js"></script>
+
+    <!-- js:app -->
+    <script src="app/modules/gallery/gallery.js"></script>
+    <script src="app/init.js"></script>
+</body>
+</html>
